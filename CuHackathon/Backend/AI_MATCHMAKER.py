@@ -20,7 +20,7 @@ def parse_data():
 
     data = pd.read_csv('assets/Superheroes.csv')
 
-    data = data[data['Creator'].isin(['DC Comics', 'Marvel Comics','Disney','Pixar',])] # Filter by Creator
+    data = data[data['Creator'].isin(['DC Comics', 'Marvel Comics','Disney','Pixar'])] # Filter by Creator
 
 
     # Ensure numerical data
@@ -106,7 +106,7 @@ def initialize_ai():
     # Compute cosine similarity
     similarities = cosine_similarity(embeddings_hero, embeddings_villain)
 
-    print(similarities)
+    
 
     # Find best hero for each villain
     best_match_indices = np.argmax(similarities, axis=0)
