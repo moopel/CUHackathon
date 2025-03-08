@@ -22,4 +22,8 @@ encoded_features = encoder.fit_transform(data[categorical_features])  # Fit and 
 # encoded_df = pd.DataFrame(encoded_features, columns=encoder.get_feature_names_out(categorical_features))  # Convert encoded features to DataFrame
 # data = pd.concat([pd.DataFrame(data[numerical_features], columns=numerical_features), encoded_df], axis=1)  # Concatenate numerical and encoded categorical features
 
+
+for feature in categorical_features:
+    data[feature] = encoder.fit_transform(data[feature])
+
 print(data)  # Print the final DataFrame
