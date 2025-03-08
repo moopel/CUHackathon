@@ -98,9 +98,6 @@ def initialize_ai():
     heroes_array = heroes_data.drop(columns=['Alignment'], errors='ignore').to_numpy(dtype=np.float32)
     villains_array = villains_data.drop(columns=['Alignment'], errors='ignore').to_numpy(dtype=np.float32)
 
-    print("Shape of heroes_array:", heroes_array.shape)
-    print("Shape of villains_array:", villains_array.shape)
-
     #heroes_data = heroes_data.sample(n=100)
     #villains_data = villains_data.sample(n=100)
 
@@ -138,8 +135,7 @@ def initialize_ai():
     top_k = 5  # Adjust as needed
     best_match_indices = np.argpartition(-similarities, kth=top_k, axis=0)[:top_k]
 
-    print("Best match indices (sorted):", best_match_indices)
-    print("Sorted cosine similarities:", similarities[best_match_indices])
+   
 
     hero_list = []
 
@@ -155,7 +151,7 @@ def initialize_ai():
         if hero_name not in hero_list:
             hero_list.append(hero_name)
 
-    print(f"The best heroes to fight are: {hero_list}")
+    return hero_list
 
 
 
@@ -177,7 +173,6 @@ def return_villain_list():
 
     return villain_data['Character']
     
-print(f"{generate_villain()}")
     
 # Function which takes name of character as argument and returns that character's data
 def get_character_from_name(name_of_character):
@@ -191,4 +186,3 @@ def get_character_from_name(name_of_character):
     else:
         return char_data
 
-    
