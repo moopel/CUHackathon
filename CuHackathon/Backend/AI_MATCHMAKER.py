@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 from sklearn.metrics.pairwise import cosine_similarity
 import sys
+import random
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -11,7 +12,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 def parse_data():
     data = pd.read_csv('CuHackathon/Backend/assets/Superheroes.csv', encoding='utf-8')
 
-    print("Columns after reading CSV:", data.columns)
+    #print("Columns after reading CSV:", data.columns)
 
     numerical_features = ['Combat', 'Durability', 'Intelligence', 'Power', 'Strength', 'Speed']
     for feature in numerical_features:
@@ -26,7 +27,7 @@ def parse_data():
     data['Alignment'] = label_encoder.fit_transform(data['Alignment'])
     data['Creator'] = label_encoder.fit_transform(data['Creator'])
 
-    print("Columns before encoding 'Character':", data.columns)
+    #print("Columns before encoding 'Character':", data.columns)
 
     categorical_features = ['Character']
     if 'Character' in data.columns:
@@ -35,7 +36,7 @@ def parse_data():
 
         encoded_df = pd.DataFrame(encoded_features, columns=encoder.get_feature_names_out(categorical_features))
         data = pd.concat([data, encoded_df], axis=1)
-        print("Columns after encoding 'Character':", data.columns)
+        #print("Columns after encoding 'Character':", data.columns)
     else:
         print("Character column not found in data")
 
@@ -156,19 +157,41 @@ def initialize_ai():
 
     print(f"The best heroes to fight are: {hero_list}")
 
-initialize_ai()
 
 
 
+def generate_villain():
+    data = parse_data()
+    villain_data = data[data['Alignment'] == 2]
 
+    random_index = random.choice(villain_data.index)
+    
+    # Access the 'Alignment' value of the selected villain
+    return str(villain_data.loc[random_index, 'Character'])
 
-
-
+    
 def return_villain_list():
-    pass
+    data = parse_data()
 
-def get_villain_from_name(name_of_charecter):
-    pass
+    villain_data = data[data['Alignment'] == 2]
 
-def villain_hero_info(name_of_charecter):
+    return villain_data['Character']
+    
+print(f"{generate_villain()}")
+    
+
+def get_character_from_name(name_of_character):
+    data = parse_data() # get data
+
+
+    # get character data by filtering by heroes & the specified name
+    char_data = data[(data['Alignment'] == 3) & (data['Character'] == name_of_character)]
+
+    if char_data.empty: # if no character found with name, return error
+        return f"No character found with the name {name_of_character}"
+    else:
+        return char_data
+    
+
+def villain_hero_info(name_of_character):
     pass

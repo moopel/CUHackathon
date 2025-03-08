@@ -22,6 +22,7 @@ namespace CuHackathon.Forms
         private void GenerateVillainButton_Click(object sender, EventArgs e)
         {
             RandomVillain();
+            parentForm.villainName = "Joker";
             villainBodyBox.Text = PythonMedian.GenerateCrime(parentForm.villainName).Result;
         }
 

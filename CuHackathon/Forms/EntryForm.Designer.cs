@@ -41,26 +41,26 @@
             heroPanel.Location = new Point(0, 0);
             heroPanel.Margin = new Padding(0);
             heroPanel.Name = "heroPanel";
-            heroPanel.Size = new Size(550, 944);
+            heroPanel.Size = new Size(600, 944);
             heroPanel.TabIndex = 0;
             // 
             // villainPanel
             // 
             villainPanel.BackColor = Color.IndianRed;
             villainPanel.Dock = DockStyle.Right;
-            villainPanel.Location = new Point(700, 0);
+            villainPanel.Location = new Point(650, 0);
             villainPanel.Margin = new Padding(0);
             villainPanel.Name = "villainPanel";
-            villainPanel.Size = new Size(548, 944);
+            villainPanel.Size = new Size(598, 944);
             villainPanel.TabIndex = 1;
             // 
             // panel2
             // 
-            panel2.BackColor = SystemColors.ActiveCaptionText;
-            panel2.Location = new Point(550, 0);
+            panel2.BackColor = SystemColors.ControlDarkDark;
+            panel2.Location = new Point(600, 0);
             panel2.Margin = new Padding(0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(150, 944);
+            panel2.Size = new Size(50, 944);
             panel2.TabIndex = 2;
             // 
             // EntryForm
