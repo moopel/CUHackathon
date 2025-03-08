@@ -3,6 +3,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 
 def parse_data():
     data = pd.read_csv('assets/Superheroes.csv')
+
     # Ensure the columns contain only numeric data
     numerical_features = ['Combat', 'Durability', 'Intelligence', 'Power', 'Strength', 'Speed']
     for feature in numerical_features:
@@ -28,7 +29,22 @@ def parse_data():
     # Concatenate numerical, encoded categorical, and encoded 'Alignment' features
     data = pd.concat([pd.DataFrame(data[numerical_features], columns=numerical_features), data['Alignment'], data['Creator'], data['Character']], axis=1)  # Concatenate features
 
-    print(data)  # Print the final DataFrame
+    # print(data.head(20))  # Print the final DataFrame
+                          # 2 represent bad, 3 is good, 4 is neutral, 5 is None
+                          # not including neutral or none
+
+    data1 = data[data['Creator'] != 110]
+    heroes_data = data1[data1['Alignment'] == 3]   
+    villain_data = data1[data1['Alignment'] == 2]
+
+
+
+
+
+    print(villain_data)
+
+                      
+    
 
 
 parse_data() 
