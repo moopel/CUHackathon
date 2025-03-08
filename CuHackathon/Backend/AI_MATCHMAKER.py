@@ -10,7 +10,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # helper fucntions
 def parse_data():
-    data = pd.read_csv('CuHackathon/Backend/assets/Superheroes.csv', encoding='utf-8')
+    data = pd.read_csv('assets/Superheroes.csv', encoding='utf-8')
 
     #print("Columns after reading CSV:", data.columns)
 
@@ -156,9 +156,6 @@ def initialize_ai():
             hero_list.append(hero_name)
 
     print(f"The best heroes to fight are: {hero_list}")
-
-
-
 
 def generate_villain():
     data = parse_data()
