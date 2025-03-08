@@ -32,7 +32,12 @@
             villainHeaderPanel = new Panel();
             villainBodyPanel = new Panel();
             villainFooterPanel = new Panel();
+            villainBodyBox = new TextBox();
+            villainFooterBox = new TextBox();
+            comboBox1 = new ComboBox();
             villainHeaderPanel.SuspendLayout();
+            villainBodyPanel.SuspendLayout();
+            villainFooterPanel.SuspendLayout();
             SuspendLayout();
             // 
             // villainLabel
@@ -50,7 +55,7 @@
             // 
             // villainHeaderPanel
             // 
-            villainHeaderPanel.BackColor = Color.IndianRed;
+            villainHeaderPanel.BackColor = Color.Black;
             villainHeaderPanel.Controls.Add(villainLabel);
             villainHeaderPanel.Dock = DockStyle.Top;
             villainHeaderPanel.Location = new Point(0, 0);
@@ -61,7 +66,9 @@
             // 
             // villainBodyPanel
             // 
-            villainBodyPanel.BackColor = Color.Brown;
+            villainBodyPanel.BackColor = Color.FromArgb(187, 33, 62);
+            villainBodyPanel.Controls.Add(comboBox1);
+            villainBodyPanel.Controls.Add(villainBodyBox);
             villainBodyPanel.Dock = DockStyle.Top;
             villainBodyPanel.Location = new Point(0, 75);
             villainBodyPanel.Margin = new Padding(0);
@@ -71,13 +78,43 @@
             // 
             // villainFooterPanel
             // 
-            villainFooterPanel.BackColor = Color.LightCoral;
-            villainFooterPanel.Dock = DockStyle.Bottom;
+            villainFooterPanel.BackColor = Color.FromArgb(187, 33, 62);
+            villainFooterPanel.Controls.Add(villainFooterBox);
+            villainFooterPanel.Dock = DockStyle.Fill;
             villainFooterPanel.Location = new Point(0, 550);
             villainFooterPanel.Margin = new Padding(0);
             villainFooterPanel.Name = "villainFooterPanel";
             villainFooterPanel.Size = new Size(528, 338);
             villainFooterPanel.TabIndex = 3;
+            // 
+            // villainBodyBox
+            // 
+            villainBodyBox.BackColor = SystemColors.Info;
+            villainBodyBox.Location = new Point(19, 63);
+            villainBodyBox.Margin = new Padding(10);
+            villainBodyBox.Multiline = true;
+            villainBodyBox.Name = "villainBodyBox";
+            villainBodyBox.Size = new Size(499, 402);
+            villainBodyBox.TabIndex = 0;
+            // 
+            // villainFooterBox
+            // 
+            villainFooterBox.BackColor = SystemColors.Info;
+            villainFooterBox.Location = new Point(19, 23);
+            villainFooterBox.Margin = new Padding(10);
+            villainFooterBox.Multiline = true;
+            villainFooterBox.Name = "villainFooterBox";
+            villainFooterBox.Size = new Size(499, 296);
+            villainFooterBox.TabIndex = 0;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(34, 10);
+            comboBox1.Margin = new Padding(25, 10, 25, 10);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(460, 33);
+            comboBox1.TabIndex = 1;
             // 
             // VillainForm
             // 
@@ -89,6 +126,10 @@
             Controls.Add(villainHeaderPanel);
             Name = "VillainForm";
             villainHeaderPanel.ResumeLayout(false);
+            villainBodyPanel.ResumeLayout(false);
+            villainBodyPanel.PerformLayout();
+            villainFooterPanel.ResumeLayout(false);
+            villainFooterPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -98,5 +139,8 @@
         private Panel villainHeaderPanel;
         private Panel villainBodyPanel;
         private Panel villainFooterPanel;
+        private TextBox villainBodyBox;
+        private TextBox villainFooterBox;
+        private ComboBox comboBox1;
     }
 }

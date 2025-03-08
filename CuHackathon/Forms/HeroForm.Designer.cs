@@ -40,7 +40,7 @@
             heroLabel.BackColor = Color.Transparent;
             heroLabel.Dock = DockStyle.Fill;
             heroLabel.Font = new Font("Showcard Gothic", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            heroLabel.ForeColor = Color.White;
+            heroLabel.ForeColor = Color.Black;
             heroLabel.Location = new Point(0, 0);
             heroLabel.Name = "heroLabel";
             heroLabel.Size = new Size(528, 75);
@@ -50,7 +50,7 @@
             // 
             // heroHeaderPanel
             // 
-            heroHeaderPanel.BackColor = Color.MediumSeaGreen;
+            heroHeaderPanel.BackColor = Color.White;
             heroHeaderPanel.Controls.Add(heroLabel);
             heroHeaderPanel.Dock = DockStyle.Top;
             heroHeaderPanel.Location = new Point(0, 0);
@@ -71,7 +71,7 @@
             // panel1
             // 
             panel1.BackColor = Color.LimeGreen;
-            panel1.Dock = DockStyle.Bottom;
+            panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 732);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
