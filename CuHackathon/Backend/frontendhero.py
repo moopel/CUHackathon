@@ -42,16 +42,28 @@ def main():
                 # Display results here
                 st.write(f"The best heroes to fight {selected_villain} are ")
                 hero_list = initialize_ai(selected_villain)
+
+                setting = LOAD_AI_RESPONSE.get_bot_villain_crime(selected_villain)
                 st.write(f"{str(hero_list)}")
-                st.write(f"{LOAD_AI_RESPONSE.get_bot_villain_crime(selected_villain)}")
+                st.write(f"{setting}")
                 st.write(f"\n")
                 st.write(f"\n")
                 st.write(f"{str(hero_list[0])}")
                 st.write(f"{LOAD_AI_RESPONSE.get_bot_hero_decription(hero_list[0], selected_villain)}")
                 st.write(f"\n")
                 st.write(f"\n")
+                st.write(f"FIGHT SIMULATION COMMENCING.......")
+                st.write(f" {LOAD_AI_RESPONSE.get_bot_fight_outplay(hero_list[0], selected_villain, setting, hero_list[0])} ")
+
+                st.write(f"\n")
+                st.write(f"\n")
                 st.write(f"{str(hero_list[1])}")
                 st.write(f"{LOAD_AI_RESPONSE.get_bot_hero_decription(hero_list[1], selected_villain )})")
+                st.write(f"\n")
+                st.write(f"\n")
+                st.write(f"FIGHT SIMULATION COMMENCING.......")
+                st.write(f" {LOAD_AI_RESPONSE.get_bot_fight_outplay(hero_list[1], selected_villain, setting, hero_list[1])} ")
+
 
         except Exception as e:
             st.error(f"Error loading villains: {e}")
