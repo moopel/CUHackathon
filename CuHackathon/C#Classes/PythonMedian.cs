@@ -22,12 +22,12 @@ namespace CuHackathon.C_Classes
                 var response = await client.PostAsync("http://localhost:5000/generate-crime", content);
                 result = await response.Content.ReadAsStringAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
 
-            result = "Got through function";
+
             return result;
         }
 

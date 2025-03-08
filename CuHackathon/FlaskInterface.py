@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "Backend"))
 
-from LOAD_AI_RESPONSE import get_bot_villain_crime, get_bot_hero_decription, get_bot_fight_outplay
+from Backend.LOAD_AI_RESPONSE import get_bot_villain_crime, get_bot_hero_decription, get_bot_fight_outplay
 
 app = Flask(__name__)
 load_dotenv()

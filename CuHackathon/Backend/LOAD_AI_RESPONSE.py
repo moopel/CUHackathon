@@ -6,7 +6,7 @@ load_dotenv()  # Load environment variables
 
 def get_bot_villain_crime(villain_name):
     try:
-        with open("CuHackathon/Backend/assets/villianPrompt.txt") as file:
+        with open("Backend/assets/villianPrompt.txt") as file:
             VILLIAN_PROMPT = file.read()
     except FileNotFoundError:
         return f"Files in this directory: {os.listdir()} | Current working directory: {os.getcwd()}"
@@ -37,7 +37,7 @@ def get_bot_villain_crime(villain_name):
 
 def get_bot_hero_decription(hero_name, villain_name):
     try:
-        with open("CuHackathon/Backend/assets/heroPrompt.txt") as file:
+        with open("Backend/assets/heroPrompt.txt") as file:
             HERO_PROMPT = file.read()
     except FileNotFoundError:
         return f"Files in this directory: {os.listdir()} | Current working directory: {os.getcwd()}"
@@ -68,7 +68,7 @@ def get_bot_hero_decription(hero_name, villain_name):
 
 def get_bot_fight_outplay(hero_name, villain_name, setting, winner):
     try:
-        with open("CuHackathon/Backend/assets/fightOutplay.txt") as file:
+        with open("Backend/assets/fightOutplay.txt") as file:
             FIGHT_PROMPT = file.read()
     except FileNotFoundError:
         return f"Files in this directory: {os.listdir()} | Current working directory: {os.getcwd()}"
