@@ -154,19 +154,16 @@ def return_villain_list():
     
 print(f"{generate_villain()}")
     
-
+# Function which takes name of character as argument and returns that character's data
 def get_character_from_name(name_of_character):
     data = parse_data() # get data
 
-
-    # get character data by filtering by heroes & the specified name
-    char_data = data[(data['Alignment'] == 3) & (data['Character'] == name_of_character)]
+    # get character data by filtering by heroes / villain & the specified name
+    char_data = data[data['Character'] == name_of_character]
 
     if char_data.empty: # if no character found with name, return error
         return f"No character found with the name {name_of_character}"
     else:
         return char_data
-    
 
-def villain_hero_info(name_of_character):
-    pass
+    
