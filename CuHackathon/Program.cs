@@ -1,3 +1,5 @@
+using CuHackathon.Forms;
+
 namespace CuHackathon
 {
     internal static class Program
