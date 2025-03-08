@@ -22,12 +22,10 @@ namespace CuHackathon.C_Classes
                 var response = await client.PostAsync("http://localhost:5000/generate-crime", content);
                 result = await response.Content.ReadAsStringAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
-
-
             return result;
         }
 
@@ -50,6 +48,13 @@ namespace CuHackathon.C_Classes
             var response = await client.PostAsync("http://localhost:5000/generate-fight", content);
             var result = await response.Content.ReadAsStringAsync();
 
+            return result;
+        }
+
+        public static async Task<string> GenerateVillain()
+        {
+            var response = await client.GetAsync("http://localhost:5000/generate-villain");
+            var result = await response.Content.ReadAsStringAsync();
             return result;
         }
     }
