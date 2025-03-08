@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VillainForm));
             villainLabel = new Label();
             villainHeaderPanel = new Panel();
             villainBodyPanel = new Panel();
-            villainFooterPanel = new Panel();
-            villainBodyBox = new TextBox();
-            villainFooterBox = new TextBox();
             comboBox1 = new ComboBox();
+            villainBodyBox = new TextBox();
+            villainFooterPanel = new Panel();
+            villainFooterBox = new TextBox();
+            generateVillainButton = new Button();
             villainHeaderPanel.SuspendLayout();
             villainBodyPanel.SuspendLayout();
             villainFooterPanel.SuspendLayout();
@@ -67,6 +69,7 @@
             // villainBodyPanel
             // 
             villainBodyPanel.BackColor = Color.FromArgb(187, 33, 62);
+            villainBodyPanel.Controls.Add(generateVillainButton);
             villainBodyPanel.Controls.Add(comboBox1);
             villainBodyPanel.Controls.Add(villainBodyBox);
             villainBodyPanel.Dock = DockStyle.Top;
@@ -75,6 +78,25 @@
             villainBodyPanel.Name = "villainBodyPanel";
             villainBodyPanel.Size = new Size(528, 475);
             villainBodyPanel.TabIndex = 2;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(34, 0);
+            comboBox1.Margin = new Padding(25, 10, 25, 10);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(460, 33);
+            comboBox1.TabIndex = 1;
+            // 
+            // villainBodyBox
+            // 
+            villainBodyBox.BackColor = SystemColors.Info;
+            villainBodyBox.Location = new Point(19, 71);
+            villainBodyBox.Margin = new Padding(10);
+            villainBodyBox.Multiline = true;
+            villainBodyBox.Name = "villainBodyBox";
+            villainBodyBox.Size = new Size(499, 394);
+            villainBodyBox.TabIndex = 0;
             // 
             // villainFooterPanel
             // 
@@ -87,16 +109,6 @@
             villainFooterPanel.Size = new Size(528, 338);
             villainFooterPanel.TabIndex = 3;
             // 
-            // villainBodyBox
-            // 
-            villainBodyBox.BackColor = SystemColors.Info;
-            villainBodyBox.Location = new Point(19, 63);
-            villainBodyBox.Margin = new Padding(10);
-            villainBodyBox.Multiline = true;
-            villainBodyBox.Name = "villainBodyBox";
-            villainBodyBox.Size = new Size(499, 402);
-            villainBodyBox.TabIndex = 0;
-            // 
             // villainFooterBox
             // 
             villainFooterBox.BackColor = SystemColors.Info;
@@ -107,14 +119,22 @@
             villainFooterBox.Size = new Size(499, 296);
             villainFooterBox.TabIndex = 0;
             // 
-            // comboBox1
+            // generateVillainButton
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(34, 10);
-            comboBox1.Margin = new Padding(25, 10, 25, 10);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(460, 33);
-            comboBox1.TabIndex = 1;
+            generateVillainButton.BackColor = Color.Black;
+            generateVillainButton.FlatStyle = FlatStyle.Flat;
+            generateVillainButton.Font = new Font("Showcard Gothic", 10F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            generateVillainButton.ForeColor = Color.White;
+            generateVillainButton.Image = (Image)resources.GetObject("generateVillainButton.Image");
+            generateVillainButton.ImageAlign = ContentAlignment.MiddleRight;
+            generateVillainButton.Location = new Point(117, 33);
+            generateVillainButton.Margin = new Padding(0);
+            generateVillainButton.Name = "generateVillainButton";
+            generateVillainButton.Size = new Size(286, 39);
+            generateVillainButton.TabIndex = 4;
+            generateVillainButton.Text = "Generate Random";
+            generateVillainButton.UseVisualStyleBackColor = false;
+            generateVillainButton.Click += GenerateVillainButton_Click;
             // 
             // VillainForm
             // 
@@ -142,5 +162,6 @@
         private TextBox villainBodyBox;
         private TextBox villainFooterBox;
         private ComboBox comboBox1;
+        private Button generateVillainButton;
     }
 }

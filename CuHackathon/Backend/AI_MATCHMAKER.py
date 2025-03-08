@@ -42,6 +42,11 @@ def parse_data():
 
     return data
 
+def process_batch(embedding_model, data_batch):#new function for chuncking
+    embeddings = embedding_model.predict(data_batch)
+    return tf.math.l2_normalize(embeddings, axis=1).numpy()
+
+
 def initialize_ai():
     data = parse_data()
 
@@ -73,8 +78,8 @@ def initialize_ai():
         return
 
     # Sample a smaller batch for heroes and villains
-    heroes_data = heroes_data.sample(n=100)
-    villains_data = villains_data.sample(n=100)
+    #heroes_data = heroes_data.sample(n=100)
+    #villains_data = villains_data.sample(n=100)
 
     heroes_array = heroes_data.drop(columns=['Alignment'], errors='ignore').to_numpy(dtype=np.float32)
     villains_array = villains_data.drop(columns=['Alignment'], errors='ignore').to_numpy(dtype=np.float32)
@@ -82,11 +87,29 @@ def initialize_ai():
     print("Shape of heroes_array:", heroes_array.shape)
     print("Shape of villains_array:", villains_array.shape)
 
-    embeddings_hero = tf.math.l2_normalize(embedding_model.predict(heroes_array), axis=1).numpy()
-    embeddings_villain = tf.math.l2_normalize(embedding_model.predict(villains_array), axis=1).numpy()
+    chunk_size = 500
+    hero_embeddings = []
+    villain_embeddings = []
+
+    for i in range(0, len(heroes_array), chunk_size):
+        hero_batch = heroes_array[i:i + chunk_size]
+        hero_embeddings.append(process_batch(embedding_model, hero_batch))
+
+    for i in range(0, len(villains_array), chunk_size):
+        villain_batch = villains_array[i:i + chunk_size]
+        villain_embeddings.append(process_batch(embedding_model, villain_batch))
+
+    hero_embeddings = np.vstack(hero_embeddings)
+    villain_embeddings = np.vstack(villain_embeddings)
+
+    #embeddings_hero = tf.math.l2_normalize(embedding_model.predict(heroes_array), axis=1).numpy()
+    #embeddings_villain = tf.math.l2_normalize(embedding_model.predict(villains_array), axis=1).numpy()
+
+    hero_embeddings = np.vstack(hero_embeddings)
+    villain_embeddings = np.vstack(villain_embeddings)
 
     # Compute cosine similarity with TensorFlow
-    similarities = tf.matmul(embeddings_hero, embeddings_villain, transpose_b=True).numpy()
+    similarities = tf.matmul(hero_embeddings, villain_embeddings, transpose_b=True).numpy()
 
     best_match_indices = np.argsort(similarities, axis=0)
 
