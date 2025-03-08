@@ -8,9 +8,6 @@ import random
 def parse_data():
     data = pd.read_csv('assets/Superheroes.csv')
 
-    # Print the columns of the DataFrame to check if 'Character' exists
-    print("Columns after reading CSV:", data.columns)
-
     # Ensure the columns contain only numeric data
     numerical_features = ['Combat', 'Durability', 'Intelligence', 'Power', 'Strength', 'Speed']
     for feature in numerical_features:
@@ -27,9 +24,6 @@ def parse_data():
     data['Alignment'] = label_encoder.fit_transform(data['Alignment'])  # Encode 'Alignment' with unique numerical values
     data['Creator'] = label_encoder.fit_transform(data['Creator'])  # Encode 'Creator' with unique numerical values
 
-    # Print the columns of the DataFrame to check if 'Character' exists before encoding
-    print("Columns before encoding 'Character':", data.columns)
-
     # Encode 'Character' with OneHotEncoder
     categorical_features = ['Character']
     if 'Character' in data.columns:
@@ -41,7 +35,6 @@ def parse_data():
 
         # Concatenate numerical, encoded categorical, and encoded 'Alignment' and 'Creator' features
         data = pd.concat([data, encoded_df], axis=1)
-        print("Columns after encoding 'Character':", data.columns)
     else:
         print("Character column not found in data")
 
@@ -72,37 +65,19 @@ def initialize_ai():
         print("No heroes or villains found in the data")
         return
 
-    # Ensure all columns are numeric before converting to NumPy array
-    heroes_data = heroes_data.select_dtypes(include=[np.number])
-    villains_data = villain_data.select_dtypes(include=[np.number])
-
     # Convert to NumPy arrays (ensuring float32)
     heroes_array = heroes_data.drop(columns=['Alignment']).to_numpy(dtype=np.float32)
-    villains_array = villains_data.drop(columns=['Alignment']).to_numpy(dtype=np.float32)
-
-    # Debugging: Print shapes and data types
-    print("Shape of heroes_array:", heroes_array.shape)
-    print("Data type of heroes_array:", heroes_array.dtype)
-    print("Shape of villains_array:", villains_array.shape)
-    print("Data type of villains_array:", villains_array.dtype)
+    villains_array = villain_data.drop(columns=['Alignment']).to_numpy(dtype=np.float32)
 
     # Compute embeddings
     embeddings_hero = tf.math.l2_normalize(embedding_model.predict(heroes_array), axis=1)
     embeddings_villain = tf.math.l2_normalize(embedding_model.predict(villains_array), axis=1)
 
-    embeddings_hero = tf.convert_to_tensor(embeddings_hero, dtype=tf.float32)
-    embeddings_villain = tf.convert_to_tensor(embeddings_villain, dtype=tf.float32)
-
     # Compute cosine similarity
     similarities = cosine_similarity(embeddings_hero, embeddings_villain)
 
-    # Find best hero for each villain
-    best_match_indices = tf.argsort(cosine_similarity, direction='ASCENDING')
-
-    sorted_distances = tf.gather(cosine_similarity, best_match_indices) # get the sorted matches
-
-    print(f"Sorted Indicies: {sorted_distances.numpy()}")
-    print(f"Sorted cosine similarities: {sorted_distances.numpy()}")
+    # Find top 3 heroes for each villain
+    top_heroes_indices = np.argsort(-similarities, axis=0)[:3]
 
     # Ensure the index is within bounds
     if len(villain_data) > 10:
@@ -110,31 +85,9 @@ def initialize_ai():
     else:
         villain_name = data.iloc[villain_data.index[0]]['Character']
 
-    hero_list = []
-    count = 0
+    # Get the top 3 heroes for the first villain
+    top_heroes = [data.iloc[heroes_data.index[idx]]['Character'] for idx in top_heroes_indices[:, 0]]
 
-    for i in range(min(len(best_match_indices), 3)):
-        hero_idx = best_match_indices[i]
-
-        existing_heros = []
-
-        if hero_idx < 0 or hero_idx >= len(heroes_data):
-            print(f'Index out of bounds at {i}')
-            count += 1
-            continue
-
-
-
-        hero_name = data.iloc[heroes_data.index[hero_idx]]['Character']
-
-        if hero_name in hero_list:
-            existing_heros.append(hero_name)
-            continue
-
-        if hero_name not in existing_heros:
-            hero_list.append(hero_name)
-
-    print(f"The best heroes to fight {villain_name} are {hero_list}")
-    print(f"Number of out-of-bounds indices: {count}")
+    print(f"The best heroes to fight {villain_name} are {top_heroes}")
 
 initialize_ai()
