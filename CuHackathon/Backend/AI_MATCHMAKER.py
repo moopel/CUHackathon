@@ -181,5 +181,5 @@ def get_character_from_name(name_of_character):
     if char_data.empty: # if no character found with name, return error
         return f"No character found with the name {name_of_character}"
     else:
-        return char_data
+        return char_data # return character data
 

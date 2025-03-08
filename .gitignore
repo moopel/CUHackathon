@@ -366,5 +366,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /CuHackathon/Backend/env
 /CuHackathon/C#Classes/python313.dll
-CuHackathon/Backend/frontendhero.py
 CuHackathon/Backend/venv
