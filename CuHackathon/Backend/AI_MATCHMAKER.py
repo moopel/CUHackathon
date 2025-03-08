@@ -50,11 +50,25 @@ def process_batch(embedding_model, data_batch):#new function for chuncking
 def initialize_ai():
     data = parse_data()
 
-    if 'Character' in data.columns:
-        data1 = data.drop(columns=['Character'])
-    else:
-        print("Character column not found in data")
-        return
+    feature_weights = {
+    "Combat": 1.2,
+    "Durability": 0.8,
+    "Intelligence": 1.5,
+    "Power": 1.1,
+    "Strength": 1.0,
+    "Speed": 1.0
+    }
+
+    # Apply weights to numerical features
+    for feature, weight in feature_weights.items():
+        if feature in data.columns:
+            data[feature] *= weight
+
+        if 'Character' in data.columns:
+            data1 = data.drop(columns=['Character'])
+        else:
+            print("Character column not found in data")
+            return
 
     embedding_model = tf.keras.Sequential([
         tf.keras.layers.Dense(128, activation='relu'),
@@ -87,7 +101,10 @@ def initialize_ai():
     print("Shape of heroes_array:", heroes_array.shape)
     print("Shape of villains_array:", villains_array.shape)
 
-    chunk_size = 500
+    #heroes_data = heroes_data.sample(n=100)
+    #villains_data = villains_data.sample(n=100)
+
+    chunk_size = 100
     hero_embeddings = []
     villain_embeddings = []
 
@@ -109,9 +126,17 @@ def initialize_ai():
     villain_embeddings = np.vstack(villain_embeddings)
 
     # Compute cosine similarity with TensorFlow
-    similarities = tf.matmul(hero_embeddings, villain_embeddings, transpose_b=True).numpy()
+    #similarities = tf.matmul(hero_embeddings, villain_embeddings, transpose_b=True).numpy()
 
-    best_match_indices = np.argsort(similarities, axis=0)
+    similarities = np.zeros((len(hero_embeddings), len(villain_embeddings)), dtype=np.float32)
+
+    for i in range(0, len(hero_embeddings), 100):
+        hero_batch = hero_embeddings[i:i+100]
+        batch_similarities = tf.matmul(hero_batch, villain_embeddings, transpose_b=True).numpy()
+        similarities[i:i+100] = batch_similarities
+
+    top_k = 5  # Adjust as needed
+    best_match_indices = np.argpartition(-similarities, kth=top_k, axis=0)[:top_k]
 
     print("Best match indices (sorted):", best_match_indices)
     print("Sorted cosine similarities:", similarities[best_match_indices])
