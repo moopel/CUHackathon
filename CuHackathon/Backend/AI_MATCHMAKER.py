@@ -23,10 +23,16 @@ def parse_data():
     # Encode categorical features
     label_encoder = LabelEncoder()
     data['Alignment'] = label_encoder.fit_transform(data['Alignment'])  
-    data['Creator'] = label_encoder.fit_transform(data['Creator'])  
+    data['Creator'] = label_encoder.fit_transform(data['Creator'])
+
+    categorical_features=['Alignment','Creator','Character']  
 
     # Drop unnecessary data
-    data = data[data['Creator'] != 110]  
+    data = data[data['Creator'] != 110] 
+
+    features=numerical_features+categorical_features
+
+    data=(data[features]) 
 
     return data
 
@@ -52,10 +58,15 @@ def initialize_ai():
         print("No heroes or villains found in the data")
         return
 
-    # Convert to NumPy arrays (ensuring float32)
+    
+
+    #Convert to NumPy arrays (ensuring float32)
     heroes_array = heroes_data.to_numpy(dtype=np.float32)
     villains_array = villain_data.to_numpy(dtype=np.float32)
 
+    
+
+    ##
     # Compute embeddings
     embeddings_hero = embedding_model.predict(heroes_array)
     embeddings_villain = embedding_model.predict(villains_array)
@@ -66,10 +77,10 @@ def initialize_ai():
     # Find best hero for each villain
     best_match_indices = np.argmax(similarities, axis=0)
 
-    # Print results
+    #Print results
     for villain_idx, hero_idx in enumerate(best_match_indices):
         villain_name = data.iloc[villain_data.index[villain_idx]]['Character']
         hero_name = data.iloc[heroes_data.index[hero_idx]]['Character']
         print(f"The best hero to fight {villain_name} is {hero_name}")
-
+    
 initialize_ai()
