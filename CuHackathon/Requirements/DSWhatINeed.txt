@@ -1,0 +1,3 @@
+- Python Function that returns a datatable of all villains
+- Python Function that returns 3-5 applicable heroes with a villain input
+- Python Function that returns the heroes/villains info with their name
