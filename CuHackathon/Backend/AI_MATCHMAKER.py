@@ -1,5 +1,7 @@
 import pandas as pd
+import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+
 
 def parse_data():
     data = pd.read_csv('assets/Superheroes.csv')
@@ -33,17 +35,30 @@ def parse_data():
                           # 2 represent bad, 3 is good, 4 is neutral, 5 is None
                           # not including neutral or none
 
-    data1 = data[data['Creator'] != 110]
-    heroes_data = data1[data1['Alignment'] == 3]   
-    villain_data = data1[data1['Alignment'] == 2]
+    data = data[data['Creator'] != 110]
+    heroes_data = data[data['Alignment'] == 3]   
+    villain_data = data[data['Alignment'] == 2]
+
+    return data
 
 
+def initialize_ai():
 
+    data=parse_data()
 
+    # Define the model
+    embedding_model = tf.keras.Sequential([
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(32)  # Embedding size
+    ])
 
-    print(villain_data)
+    heroes_data = data[data['Alignment'] == 3]
+    villain_data = data[data['Alignment'] == 2]
+    # Compute embeddings for all heroes and villains
+    embeddings_villain = embedding_model.predict(villain_data)
+    embeddings_hero = embedding_model.predict(villain_data)
 
-                      
     
 
 
