@@ -42,8 +42,24 @@ def parse_data():
     return data
 
 
-def initialize_ai(data):
-    pass
+def initialize_ai():
+
+    data=parse_data()
+
+    # Define the model
+    embedding_model = tf.keras.Sequential([
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(32)  # Embedding size
+    ])
+
+    heroes_data = data[data['Alignment'] == 3]
+    villain_data = data[data['Alignment'] == 2]
+    # Compute embeddings for all heroes and villains
+    embeddings_villain = embedding_model.predict(villain_data)
+    embeddings_hero = embedding_model.predict(villain_data)
+
+    
 
 
 parse_data() 
