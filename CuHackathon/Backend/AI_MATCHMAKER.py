@@ -47,7 +47,7 @@ def process_batch(embedding_model, data_batch):#new function for chuncking
     return tf.math.l2_normalize(embeddings, axis=1).numpy()
 
 
-def initialize_ai():
+def initialize_ai(villain_name):
     data = parse_data()
 
     feature_weights = {
@@ -125,7 +125,7 @@ def initialize_ai():
     # Compute cosine similarity with TensorFlow
     #similarities = tf.matmul(hero_embeddings, villain_embeddings, transpose_b=True).numpy()
 
-    similarities = np.zeros((len(hero_embeddings), len(villain_embeddings)), dtype=np.float32)
+    similarities = np.zeros((len(hero_embeddings), get_character_from_name(villain_name)), dtype=np.float32)
 
     for i in range(0, len(hero_embeddings), 100):
         hero_batch = hero_embeddings[i:i+100]
