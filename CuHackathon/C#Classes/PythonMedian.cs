@@ -9,28 +9,35 @@ namespace CuHackathon.C_Classes
 {
     class PythonMedian
     {
-        public void RunPythonFunc(string funcName)
+        public static void RunPythonFunc()
         {
-            using (Py.GIL()) // Ensure to acquire the Python Global Interpreter Lock (GIL)
+            try
             {
-                try
+                // Explicitly set the Python environment path
+                Runtime.PythonDLL = "python313.dll";
+                PythonEngine.Initialize();
+                using (Py.GIL()) // Ensure the Global Interpreter Lock (GIL) is acquired
                 {
-                    // Example: Assuming you have a Python script or function to call dynamically
 
-                    // You could either directly pass the Python function name or run the script
-                    // Here, we are assuming a simple Python function exists in the global space
+                    dynamic sys = Py.Import("sys");
+                    sys.path.append("C:\\Users\\derek\\source\\repos\\CuHackathon\\CuHackathon\\Backend");  // Or use an absolute path
+                    foreach (var p in sys.path)
+                    {
+                        Console.WriteLine(p);
+                    }
+                    // Import your Python module (adjust for correct module name)
+                    dynamic pythonFile = Py.Import("LOAD_AI_RESPONSE"); // Import your Python module
 
-                    dynamic py = Py.Import("my_python_script"); // Import your Python module (replace with your script name)
+                    // Assuming the Python script has a function named `get_bot_response`
+                    dynamic result = pythonFile.get_bot_response("joker");
 
-                    // Call the function dynamically by its name
-                    dynamic result = py.__getattr__(funcName)();  // Calls the function based on funcName
-
-                    Console.WriteLine($"Result of {funcName}: {result}");
+                    // Output the result from the Python function
+                    Console.WriteLine($"Result of get_bot_response: {result}");
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
-                }
+            }
+            catch (PythonException ex)
+            {
+                Console.WriteLine($"Python error occurred: {ex.Message}");
             }
         }
     }
