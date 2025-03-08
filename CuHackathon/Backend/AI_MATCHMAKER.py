@@ -1,5 +1,7 @@
 import pandas as pd
+import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+
 
 def parse_data():
     data = pd.read_csv('assets/Superheroes.csv')
@@ -38,5 +40,10 @@ def parse_data():
     villain_data = data[data['Alignment'] == 2]
 
     return data
+
+
+def initialize_ai(data):
+    pass
+
 
 parse_data() 
