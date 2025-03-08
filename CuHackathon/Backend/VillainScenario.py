@@ -6,13 +6,14 @@ load_dotenv()  # Load environment variables
 
 def get_bot_response(villain_name):
     try:
-        with open("assets/villianPrompt.txt") as file:
-            VILLAIN_PROMPT = file.read()
+        with open("CuHackathon/Backend/assets/villianPrompt.txt") as file:
+            VILLIAN_PROMPT = file.read()
+
     except FileNotFoundError:
         return f"Files in this directory: {os.listdir()} | Current working directory: {os.getcwd()}"
 
     chat_messages = [
-        {"role": "system", "content": VILLAIN_PROMPT},
+        {"role": "system", "content": VILLIAN_PROMPT},
         {"role": "user", "content": f"Generate a crime for {villain_name}."}
     ]
 
