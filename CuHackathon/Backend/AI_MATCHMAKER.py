@@ -33,18 +33,10 @@ def parse_data():
                           # 2 represent bad, 3 is good, 4 is neutral, 5 is None
                           # not including neutral or none
 
-    data1 = data[data['Creator'] != 110]
-    heroes_data = data1[data1['Alignment'] == 3]   
-    villain_data = data1[data1['Alignment'] == 2]
+    data = data[data['Creator'] != 110]
+    heroes_data = data[data['Alignment'] == 3]   
+    villain_data = data[data['Alignment'] == 2]
 
-
-
-
-
-    print(villain_data)
-
-                      
-    
-
+    return data
 
 parse_data() 
