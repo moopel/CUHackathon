@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 from sklearn.metrics.pairwise import cosine_similarity
 import sys
+import random
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -108,16 +109,28 @@ def initialize_ai():
 
     print(f"The best heroes to fight are: {hero_list}")
 
-initialize_ai()
 
 
 
+def generate_villain():
+    data = parse_data()
+    villain_data = data[data['Alignment'] == 2]
 
+    random_index = random.choice(villain_data.index)
+    
+    # Access the 'Alignment' value of the selected villain
+    return villain_data.loc[random_index, 'Character']
 
-
-
+    
 def return_villain_list():
-    pass
+    data = parse_data()
+
+    villain_data = data[data['Alignment'] == 2]
+
+    return villain_data['Character']
+    
+print(f"{generate_villain()}")
+    
 
 def get_villain_from_name(name_of_charecter):
     pass
