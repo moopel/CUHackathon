@@ -40,6 +40,8 @@ def main():
                 # Call your matching algorithm for the selected villain
                 st.write(f"Finding best heroes to fight {selected_villain}...")
                 # Display results here
+                st.write(f"The best heroes to fight {selected_villain} are ")
+                st.write(initialize_ai(selected_villain))
         except Exception as e:
             st.error(f"Error loading villains: {e}")
     
