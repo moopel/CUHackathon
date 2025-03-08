@@ -151,7 +151,7 @@ def initialize_ai(villain_name):
         if hero_name not in hero_list:
             hero_list.append(hero_name)
 
-    return hero_list
+    return str(hero_list)
 
 def generate_villain():
     data = parse_data()
