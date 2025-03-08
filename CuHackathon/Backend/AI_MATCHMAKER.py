@@ -53,7 +53,7 @@ def initialize_ai(villain_name):
     feature_weights = {
     "Combat": 1.2,
     "Durability": 0.8,
-    "Intelligence": 1.5,
+    "Intelligence": 2.5,
     "Power": 1.1,
     "Strength": 1.0,
     "Speed": 1.0
@@ -91,15 +91,9 @@ def initialize_ai(villain_name):
         print("Heroes or Villains data is empty after filtering for numeric columns")
         return
 
-    # Sample a smaller batch for heroes and villains
-    #heroes_data = heroes_data.sample(n=100)
-    #villains_data = villains_data.sample(n=100)
-
     heroes_array = heroes_data.drop(columns=['Alignment'], errors='ignore').to_numpy(dtype=np.float32)
     villains_array = villains_data.drop(columns=['Alignment'], errors='ignore').to_numpy(dtype=np.float32)
 
-    #heroes_data = heroes_data.sample(n=100)
-    #villains_data = villains_data.sample(n=100)
 
     chunk_size = 100
     hero_embeddings = []
@@ -125,11 +119,28 @@ def initialize_ai(villain_name):
     # Compute cosine similarity with TensorFlow
     #similarities = tf.matmul(hero_embeddings, villain_embeddings, transpose_b=True).numpy()
 
-    similarities = np.zeros((len(hero_embeddings), get_character_from_name(villain_name)), dtype=np.float32)
+    
 
+    # Get the villain's data
+    villain_data = get_character_from_name(villain_name)
+
+    # Extract the villain's features for embedding
+    villain_features = villain_data.select_dtypes(include=[np.number]).drop(columns=['Alignment'], errors='ignore')
+
+    if len(villain_features) > 1:
+        # Take just the first row if there are multiple matches
+        villain_features = villain_features.iloc[0:1]
+
+    # Create the villain embedding
+    villain_embedding = process_batch(embedding_model, villain_features.to_numpy(dtype=np.float32))
+
+    # Create the similarity matrix - shape should be (num_heroes, 1) since we're comparing to a single villain
+    similarities = np.zeros((len(hero_embeddings), 1), dtype=np.float32)
+
+# Then compute the similarities
     for i in range(0, len(hero_embeddings), 100):
         hero_batch = hero_embeddings[i:i+100]
-        batch_similarities = tf.matmul(hero_batch, villain_embeddings, transpose_b=True).numpy()
+        batch_similarities = cosine_similarity(hero_batch, villain_embedding)
         similarities[i:i+100] = batch_similarities
 
     top_k = 5  # Adjust as needed
@@ -151,7 +162,7 @@ def initialize_ai(villain_name):
         if hero_name not in hero_list:
             hero_list.append(hero_name)
 
-    return str(hero_list)
+    return hero_list
 
 def generate_villain():
     data = parse_data()
@@ -160,7 +171,7 @@ def generate_villain():
     random_index = random.choice(villain_data.index)
     
     # Access the 'Alignment' value of the selected villain
-    return str(villain_data.loc[random_index, 'Character'])
+    return villain_data.loc[random_index, 'Character']
 
     
 def return_villain_list():
@@ -173,13 +184,13 @@ def return_villain_list():
     
 # Function which takes name of character as argument and returns that character's data
 def get_character_from_name(name_of_character):
-    data = parse_data() # get data
-
-    # get character data by filtering by heroes / villain & the specified name
+    data = parse_data()  # get data
+    
+    # get character data by filtering by the specified name
     char_data = data[data['Character'] == name_of_character]
-
-    if char_data.empty: # if no character found with name, return error
+    
+    if char_data.empty:  # if no character found with name, return error
         return f"No character found with the name {name_of_character}"
     else:
-        return char_data # return character data
-
+        # Return only the first row if multiple matches exist
+        return char_data.iloc[0:1]  # This ensures we return a DataFrame with exactly one row

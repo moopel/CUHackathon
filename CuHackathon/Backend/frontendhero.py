@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 import random
 import sys
 import streamlit as st
-# import functions from AI_MATCHMAKER
+import LOAD_AI_RESPONSE
 from AI_MATCHMAKER import parse_data, initialize_ai, generate_villain, return_villain_list, get_character_from_name
 
 # Streamlit UI code below 
@@ -41,7 +41,18 @@ def main():
                 st.write(f"Finding best heroes to fight {selected_villain}...")
                 # Display results here
                 st.write(f"The best heroes to fight {selected_villain} are ")
-                st.write(f"{initialize_ai(selected_villain)}")
+                hero_list = initialize_ai(selected_villain)
+                st.write(f"{str(hero_list)}")
+                st.write(f"{LOAD_AI_RESPONSE.get_bot_villain_crime(selected_villain)}")
+                st.write(f"\n")
+                st.write(f"\n")
+                st.write(f"{str(hero_list[0])}")
+                st.write(f"{LOAD_AI_RESPONSE.get_bot_hero_decription(hero_list[0], selected_villain)}")
+                st.write(f"\n")
+                st.write(f"\n")
+                st.write(f"{str(hero_list[1])}")
+                st.write(f"{LOAD_AI_RESPONSE.get_bot_hero_decription(hero_list[1], selected_villain )})")
+
         except Exception as e:
             st.error(f"Error loading villains: {e}")
     
