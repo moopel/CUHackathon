@@ -53,8 +53,16 @@ namespace CuHackathon.C_Classes
 
         public static async Task<string> GenerateVillain()
         {
-            var response = await client.GetAsync("http://localhost:5000/generate-villain");
-            var result = await response.Content.ReadAsStringAsync();
+            string result = "";
+            try
+            {
+                var response = await client.GetAsync("http://localhost:5000/generate-villain");
+                result = await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
             return result;
         }
     }
