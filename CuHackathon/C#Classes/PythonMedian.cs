@@ -9,36 +9,49 @@ namespace CuHackathon.C_Classes
 {
     class PythonMedian
     {
-        public static void RunPythonFunc()
+        private static readonly HttpClient client = new HttpClient();
+
+        public static async Task<string> GenerateCrime(string villainName)
         {
+            string result = "Error through function";
             try
             {
-                // Explicitly set the Python environment path
-                Runtime.PythonDLL = "python313.dll";
-                PythonEngine.Initialize();
-                using (Py.GIL()) // Ensure the Global Interpreter Lock (GIL) is acquired
-                {
+                var json = $"{{\"villain_name\":\"{villainName}\"}}";
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    dynamic sys = Py.Import("sys");
-                    sys.path.append("C:\\Users\\derek\\source\\repos\\CuHackathon\\CuHackathon\\Backend");  // Or use an absolute path
-                    foreach (var p in sys.path)
-                    {
-                        Console.WriteLine(p);
-                    }
-                    // Import your Python module (adjust for correct module name)
-                    dynamic pythonFile = Py.Import("LOAD_AI_RESPONSE"); // Import your Python module
-
-                    // Assuming the Python script has a function named `get_bot_response`
-                    dynamic result = pythonFile.get_bot_response("joker");
-
-                    // Output the result from the Python function
-                    Console.WriteLine($"Result of get_bot_response: {result}");
-                }
+                var response = await client.PostAsync("http://localhost:5000/generate-crime", content);
+                result = await response.Content.ReadAsStringAsync();
             }
-            catch (PythonException ex)
+            catch(Exception ex)
             {
-                Console.WriteLine($"Python error occurred: {ex.Message}");
+                MessageBox.Show($"An error occurred: {ex.Message}");
             }
+
+            result = "Got through function";
+            return result;
+        }
+
+        public static async Task<string> GenerateHeroDescription(string heroName, string villainName)
+        {
+            var json = $"{{\"hero_name\":\"{heroName}\", \"villain_name\":\"{villainName}\"}}";
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("http://localhost:5000/generate-hero-description", content);
+            var result = await response.Content.ReadAsStringAsync();
+
+            return result;
+        }
+
+        public static async Task<string> GenerateFight(string heroName, string villainName, string setting, string winner)
+        {
+            var json = $"{{\"hero_name\":\"{heroName}\", \"villain_name\":\"{villainName}\", \"setting\":\"{setting}\", \"winner\":\"{winner}\"}}";
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("http://localhost:5000/generate-fight", content);
+            var result = await response.Content.ReadAsStringAsync();
+
+            return result;
         }
     }
 }
+
