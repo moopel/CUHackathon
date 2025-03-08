@@ -8,33 +8,22 @@ namespace CuHackathon.Forms
         HeroForm childHeroForm;
         VillainForm childVillainForm;
 
-        private string villainName, heroName;
-        private string setting, winner;
+        public string villainName, heroName;
+        public string setting, winner;
         public string funcResult = String.Empty;
 
         public EntryForm()
         {
             InitializeComponent();
             FillChildForms();
-
-            //
-            villainName = "Joker"; heroName = "Batman";
-            setting = "Gotham City"; winner = "Batman";
-            Thread.SpinWait(1000);
-            LoadData();
-            //
         }
 
         private async void LoadData()
         {
             string taskString1 = "";
-            string taskString2;
-            string taskString3;
             try
             {
                 taskString1 = await RunFlaskFunc("GenerateCrime");
-                taskString2 = await RunFlaskFunc("GenerateHeroDescription");
-                taskString3 = await RunFlaskFunc("GenerateFight");
             }
             catch (Exception ex)
             {
@@ -55,6 +44,7 @@ namespace CuHackathon.Forms
             heroForm.Show();
 
             VillainForm villainForm = new();
+            villainForm.parentForm = this;
             villainForm.TopLevel = false;
             villainForm.FormBorderStyle = FormBorderStyle.None;
             villainForm.Dock = DockStyle.Fill;
